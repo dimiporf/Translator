@@ -1,18 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- Defines the main content page of the application -->
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Translator.MainPage">
 
+    <!-- ScrollView to allow content to be scrollable when the keyboard appears -->
     <ScrollView>
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
+
+            <!-- Label to display the translated text -->
             <Label
                 x:Name="TranslatedLabel"
                 Text="Translated text will appear here"
                 VerticalOptions="CenterAndExpand"
                 HorizontalOptions="CenterAndExpand" />
 
+            <!-- Button to trigger translation -->
             <Button
                 x:Name="TranslateButton"
                 Text="Translate"
@@ -20,6 +25,7 @@
                 HorizontalOptions="Fill"
                 VerticalOptions="Center" />
 
+            <!-- Editor for input text that needs to be translated -->
             <Editor
                 x:Name="InputEditor"
                 Placeholder="Enter English text here"
