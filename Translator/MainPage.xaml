@@ -3,32 +3,30 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Translator.MainPage">
 
-    <Grid RowDefinitions="*, Auto, *">
-        <ScrollView Grid.Row="0">
-            <VerticalStackLayout Padding="30,0" Spacing="25">
-                <Label
-                    x:Name="TranslatedLabel"
-                    Text="Translated text will appear here"
-                    VerticalOptions="CenterAndExpand"
-                    HorizontalOptions="CenterAndExpand" />
-            </VerticalStackLayout>
-        </ScrollView>
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+            <Label
+                x:Name="TranslatedLabel"
+                Text="Translated text will appear here"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="CenterAndExpand" />
 
-        <Button
-            Grid.Row="1"
-            x:Name="TranslateButton"
-            Text="Translate"
-            Clicked="OnTranslateClicked"
-            HorizontalOptions="Fill"
-            VerticalOptions="Center" />
+            <Button
+                x:Name="TranslateButton"
+                Text="Translate"
+                Clicked="OnTranslateClicked"
+                HorizontalOptions="Fill"
+                VerticalOptions="Center" />
 
-        <ScrollView Grid.Row="2">
             <Editor
                 x:Name="InputEditor"
                 Placeholder="Enter English text here"
                 AutoSize="TextChanges"
                 VerticalOptions="EndAndExpand"
-                HorizontalOptions="FillAndExpand" />
-        </ScrollView>
-    </Grid>
+                HorizontalOptions="FillAndExpand"
+                Completed="OnEditorCompleted" />
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

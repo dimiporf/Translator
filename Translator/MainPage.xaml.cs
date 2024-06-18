@@ -2,6 +2,8 @@
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Controls.Xaml;
 
 namespace Translator
 {
@@ -16,6 +18,17 @@ namespace Translator
         }
 
         private async void OnTranslateClicked(object sender, EventArgs e)
+        {
+            await TranslateAndDisplayText();
+        }
+
+        private async void OnEditorCompleted(object sender, EventArgs e)
+        {
+            await TranslateAndDisplayText();
+            InputEditor.Unfocus(); // Dismiss the keyboard
+        }
+
+        private async Task TranslateAndDisplayText()
         {
             string inputText = InputEditor.Text;
             if (string.IsNullOrWhiteSpace(inputText))
