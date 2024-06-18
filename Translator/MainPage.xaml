@@ -1,38 +1,66 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<!-- Defines the main content page of the application -->
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Translator.MainPage">
 
-    <!-- ScrollView to allow content to be scrollable when the keyboard appears -->
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25">
+    <StackLayout Padding="30">
+        <!-- Translated area -->
+        <Label x:Name="TranslatedLabel"
+               Text="Translated text will appear here"
+               VerticalOptions="CenterAndExpand"
+               HorizontalOptions="Center" />
 
-            <!-- Label to display the translated text -->
-            <Label
-                x:Name="TranslatedLabel"
-                Text="Translated text will appear here"
-                VerticalOptions="CenterAndExpand"
-                HorizontalOptions="CenterAndExpand" />
+        <!-- Horizontal StackLayout for language flag, Translate button, and switch button -->
+        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+            <!-- Language flag (initially English) -->
+            <Image x:Name="EnglishFlag"
+                   Source="eng.png"
+                   WidthRequest="50"
+                   HeightRequest="50"
+                   VerticalOptions="CenterAndExpand"
+                   HorizontalOptions="Start"
+                   IsVisible="True" />
 
-            <!-- Button to trigger translation -->
-            <Button
-                x:Name="TranslateButton"
-                Text="Translate"
-                Clicked="OnTranslateClicked"
-                HorizontalOptions="Fill"
-                VerticalOptions="Center" />
+            <!-- Translate button -->
+            <Button x:Name="TranslateButton"
+                    Text="Translate"
+                    Clicked="OnTranslateClicked"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="Center" />
 
-            <!-- Editor for input text that needs to be translated -->
-            <Editor
-                x:Name="InputEditor"
-                Placeholder="Enter English text here"
-                AutoSize="TextChanges"
-                VerticalOptions="EndAndExpand"
+            <!-- Language flag (initially German, initially hidden) -->
+            <Image x:Name="GermanFlag"
+                   Source="de.png"
+                   WidthRequest="50"
+                   HeightRequest="50"
+                   VerticalOptions="CenterAndExpand"
+                   HorizontalOptions="Start"
+                   IsVisible="False" />
+
+            <!-- Switch button as an ImageButton -->
+            <ImageButton x:Name="SwitchLanguageButton"
+                         Source="switch_icon.png"
+                         Clicked="OnSwitchLanguageClicked"
+                         HorizontalOptions="End"
+                         VerticalOptions="Center"
+                         WidthRequest="40"
+                         HeightRequest="40" />
+        </StackLayout>
+
+        <!-- Language label -->
+        <Label x:Name="LanguageLabel"
+               Text="English"
+               HorizontalOptions="Center"
+               VerticalOptions="CenterAndExpand"
+               Margin="0,10,0,0" />
+
+        <!-- Input text area -->
+        <Editor x:Name="InputEditor"
+                Placeholder="Enter text to translate"
+                VerticalOptions="StartAndExpand"
                 HorizontalOptions="FillAndExpand"
+                HeightRequest="100"
                 Completed="OnEditorCompleted" />
-        </VerticalStackLayout>
-    </ScrollView>
+    </StackLayout>
+
 </ContentPage>
