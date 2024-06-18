@@ -20,7 +20,7 @@ namespace Translator
             InitializeComponent();
             _httpClient = new HttpClient();
             Title = "Welcome to Translator App";
-            UpdateLanguageUI(); // Initialize language icons
+            UpdateLanguageUI(); // Initialize language icons on UI
         }
 
         // Event handler for Translate button click
@@ -28,7 +28,7 @@ namespace Translator
         {
             if (!string.IsNullOrWhiteSpace(InputEditor.Text))
             {
-                await TranslateAndDisplayText();
+                await TranslateAndDisplayText(); // Call translation method if input is not empty
             }
         }
 
@@ -36,7 +36,10 @@ namespace Translator
         private async void OnSwitchLanguageClicked(object sender, EventArgs e)
         {
             _isEnglishToGerman = !_isEnglishToGerman; // Toggle translation direction
-            _languageIndex = (_languageIndex + 1) % _languageIcons.Length; // Rotate through language icons
+
+            // Increment language index to rotate through language icons
+            _languageIndex = (_languageIndex + 1) % _languageIcons.Length;
+
             UpdateLanguageUI(); // Update UI with new language settings
 
             // Translate only if there is text in the editor
@@ -51,8 +54,8 @@ namespace Translator
         {
             if (!string.IsNullOrWhiteSpace(InputEditor.Text))
             {
-                await TranslateAndDisplayText();
-                InputEditor.Unfocus(); // Dismiss keyboard
+                await TranslateAndDisplayText(); // Translate text if input is not empty
+                InputEditor.Unfocus(); // Dismiss keyboard after translation
             }
         }
 
@@ -60,8 +63,9 @@ namespace Translator
         private async Task TranslateAndDisplayText()
         {
             string inputText = InputEditor.Text;
-
             string sourceLanguage, targetLanguage;
+
+            // Determine source and target languages based on translation direction
             if (_isEnglishToGerman)
             {
                 sourceLanguage = "en";
@@ -75,12 +79,13 @@ namespace Translator
 
             try
             {
+                // Call translation API
                 var translatedText = await TranslateTextAsync(inputText, sourceLanguage, targetLanguage);
-                TranslatedLabel.Text = translatedText;
+                TranslatedLabel.Text = translatedText; // Update translated text on UI
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Error", $"Translation failed: {ex.Message}", "OK");
+                await DisplayAlert("Error", $"Translation failed: {ex.Message}", "OK"); // Display error message if translation fails
             }
         }
 
@@ -95,18 +100,19 @@ namespace Translator
             {
                 var jsonResponse = await response.Content.ReadAsStringAsync();
                 var translationResult = JsonSerializer.Deserialize<MyMemoryResponse>(jsonResponse);
-                return translationResult.responseData.translatedText;
+                return translationResult.responseData.translatedText; // Return translated text from API response
             }
             else
             {
                 var errorResponse = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Error: {response.StatusCode}, Details: {errorResponse}");
+                throw new Exception($"Error: {response.StatusCode}, Details: {errorResponse}"); // Throw exception if API call fails
             }
         }
 
         // Method to update language UI elements (flags)
         private void UpdateLanguageUI()
         {
+            // Update language flags based on current language index
             EnglishFlag.Source = _languageIcons[_languageIndex];
             GermanFlag.Source = _languageIcons[(_languageIndex + 1) % _languageIcons.Length];
         }
