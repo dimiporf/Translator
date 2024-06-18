@@ -19,6 +19,7 @@ namespace Translator
         public MainPage()
         {
             InitializeComponent();
+            Title = "Welcome to Translator App";
             _httpClient = new HttpClient();
         }
 
