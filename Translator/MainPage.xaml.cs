@@ -10,50 +10,56 @@ namespace Translator
     {
         private HttpClient _httpClient; // HttpClient for API requests
         private bool _isEnglishToGerman = true; // Flag for translation direction
-        private int _languageIndex = 0; // Index for rotating through language labels
+        private int _languageIndex = 0; // Index for rotating through language icons
 
-        // Array of language labels and their corresponding icons
-        private string[] _languageLabels = { "English", "German" };
+        // Array of language icons
         private string[] _languageIcons = { "eng.png", "de.png" };
 
         public MainPage()
         {
             InitializeComponent();
-            Title = "Welcome to Translator App";
             _httpClient = new HttpClient();
+            Title = "Welcome to Translator App";
+            UpdateLanguageUI(); // Initialize language icons
         }
 
         // Event handler for Translate button click
         private async void OnTranslateClicked(object sender, EventArgs e)
         {
-            await TranslateAndDisplayText();
+            if (!string.IsNullOrWhiteSpace(InputEditor.Text))
+            {
+                await TranslateAndDisplayText();
+            }
         }
 
         // Event handler for Switch Language button click
         private async void OnSwitchLanguageClicked(object sender, EventArgs e)
         {
             _isEnglishToGerman = !_isEnglishToGerman; // Toggle translation direction
-            _languageIndex = (_languageIndex + 1) % _languageLabels.Length; // Rotate through language labels
+            _languageIndex = (_languageIndex + 1) % _languageIcons.Length; // Rotate through language icons
             UpdateLanguageUI(); // Update UI with new language settings
-            await TranslateAndDisplayText(); // Re-translate with new direction
+
+            // Translate only if there is text in the editor
+            if (!string.IsNullOrWhiteSpace(InputEditor.Text))
+            {
+                await TranslateAndDisplayText(); // Re-translate with new direction
+            }
         }
 
         // Event handler for Editor's Completed event (Enter key press)
         private async void OnEditorCompleted(object sender, EventArgs e)
         {
-            await TranslateAndDisplayText();
-            InputEditor.Unfocus(); // Dismiss keyboard
+            if (!string.IsNullOrWhiteSpace(InputEditor.Text))
+            {
+                await TranslateAndDisplayText();
+                InputEditor.Unfocus(); // Dismiss keyboard
+            }
         }
 
         // Method to handle translation and update UI
         private async Task TranslateAndDisplayText()
         {
             string inputText = InputEditor.Text;
-            if (string.IsNullOrWhiteSpace(inputText))
-            {
-                await DisplayAlert("Error", "Please enter some text to translate.", "OK");
-                return;
-            }
 
             string sourceLanguage, targetLanguage;
             if (_isEnglishToGerman)
@@ -98,12 +104,11 @@ namespace Translator
             }
         }
 
-        // Method to update language UI elements (flags and label)
+        // Method to update language UI elements (flags)
         private void UpdateLanguageUI()
         {
             EnglishFlag.Source = _languageIcons[_languageIndex];
             GermanFlag.Source = _languageIcons[(_languageIndex + 1) % _languageIcons.Length];
-            LanguageLabel.Text = _languageLabels[_languageIndex];
         }
     }
 
